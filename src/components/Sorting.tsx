@@ -321,7 +321,7 @@ export default function Sorting() {
                 <SortingSettings sorting={sorting} setSpeed={setSpeed} speed={speed} nbItems={nbItems} setNbItems={setNbItems}/>
             </div>
             <div className="flex gap-0.5 justify-center items-end"
-            style={{width: `800px`}}>
+            style={{width: `600px`}}>
                 {array.map((item, index) => (
                     <div
                         key={index}
