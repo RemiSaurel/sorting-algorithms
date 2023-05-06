@@ -1,5 +1,6 @@
 import SortingButton from "./SortingButton";
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
+
 
 export default function Sorting({nbItems}: {nbItems: number}) {
     const generateArray = (nbItems: number): number[] => {
@@ -10,11 +11,10 @@ export default function Sorting({nbItems}: {nbItems: number}) {
         return array;
     }
 
-    const bubbleSort = async (array: number[]) => {
-        setSorting(true)
+    const bubbleSort = async (array: number[], speed: number) => {
         const n = array.length;
         let i, j, temp;
-        let selected = [], moving: number[] = [];
+        let selected: number[] = [], moving: number[] = [], sorted: number[] = [];
         for (i = 0; i < n - 1; i++) {
             for (j = 0; j < n - i - 1; j++) {
                 selected = [j, j + 1];
@@ -26,11 +26,15 @@ export default function Sorting({nbItems}: {nbItems: number}) {
                 } else {
                     moving = [];
                 }
-                setArray([...array]);
+                if (j === n - i - 2) {
+                    sorted.push(j + 1)
+                }
                 setSelected(selected);
                 setMoving(moving);
-                setCurrentStep(currentStep + 1);
-                await new Promise(resolve => setTimeout(resolve, 200));
+                setArray([...array]);
+                setSorted(sorted);
+                setCurrentStep(currentStep => currentStep + 1)
+                await new Promise(resolve => setTimeout(resolve, speed));
             }
         }
         setSorting(false)
@@ -41,26 +45,52 @@ export default function Sorting({nbItems}: {nbItems: number}) {
     const [selected, setSelected] = useState<number[]>([]);
     const [moving, setMoving] = useState<number[]>([]);
     const [sorting, setSorting] = useState<boolean>(false);
+    const [sorted, setSorted] = useState<number[]>([]);
+    const [speed, setSpeed] = useState<number>(100);
+
+    useEffect(() => {
+        if (sorting) {
+            bubbleSort(array, speed).then(r => console.log('Finished'))
+        }
+    }, [sorting]);
 
     return (
         <div>
             <div className="flex">
-                <SortingButton name="Bubble sort" onClick={() => bubbleSort(array)} disabled={sorting}/>
+                <SortingButton name="Bubble sort" onClick={() => setSorting(true)} disabled={sorting}/>
+            </div>
+            <div className="flex items-center mb-4 gap-4">
+                <button
+                    className="bg-red-400 enabled:hover:bg-red-500 py-2 px-4 rounded disabled:opacity-50"
+                    onClick={() => setSpeed(speed => speed + 100)}
+                    disabled={sorting}
+                >🐌</button>
+                <span>
+                    {speed } ms
+                </span>
+                <button
+                    className="bg-green-400 enabled:hover:bg-green-500 py-2 px-4 rounded disabled:opacity-50"
+                    onClick={() => setSpeed(speed => speed - 100 < 0 ? 0 : speed - 100)}
+                    disabled={sorting}
+                >🐆</button>
             </div>
             <div className="flex gap-2">
                 {array.map((item, index) => (
                     <div
                         key={index}
-                        className={`bg-cyan-700 text-white font-bold py-2 px-4 rounded ${selected.includes(index) ? 'bg-green-600' : ''} ${moving.includes(index) ? 'bg-yellow-400' : ''}`}
+                        className={`bg-blue-800 text-white font-bold py-2 px-4 rounded 
+                        ${sorted.includes(index) ? 'bg-gray-400' : ''}
+                        ${selected.includes(index) ? 'bg-green-800' : ''} 
+                        ${moving.includes(index) ? 'bg-yellow-600' : ''}
+                        `}
                         style={{height: `${item * 4 + 32}px`}}
                     >
                         {item}
                     </div>
                 ))}
             </div>
-            <div>
-                Current Step: {currentStep}
+            <div className="mt-4">
+                Nb étapes : {currentStep}
             </div>
         </div>
-    );
-}
+    )}
