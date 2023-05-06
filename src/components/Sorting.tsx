@@ -37,7 +37,9 @@ export default function Sorting({nbItems}: {nbItems: number}) {
                 await new Promise(resolve => setTimeout(resolve, speed));
             }
         }
+        setSorted(array.map((_, index) => index));
         setSorting(false)
+        setCurrentStep(0)
     }
 
     const [array, setArray] = useState<number[]>(generateArray(nbItems));
@@ -46,7 +48,7 @@ export default function Sorting({nbItems}: {nbItems: number}) {
     const [moving, setMoving] = useState<number[]>([]);
     const [sorting, setSorting] = useState<boolean>(false);
     const [sorted, setSorted] = useState<number[]>([]);
-    const [speed, setSpeed] = useState<number>(100);
+    const [speed, setSpeed] = useState<number>(500);
 
     useEffect(() => {
         if (sorting) {
@@ -79,9 +81,9 @@ export default function Sorting({nbItems}: {nbItems: number}) {
                     <div
                         key={index}
                         className={`bg-blue-800 text-white font-bold py-2 px-4 rounded 
-                        ${sorted.includes(index) ? 'bg-gray-400' : ''}
-                        ${selected.includes(index) ? 'bg-green-800' : ''} 
-                        ${moving.includes(index) ? 'bg-yellow-600' : ''}
+                            ${sorted.includes(index) ? 'bg-cyan-600' : ''}
+                            ${selected.includes(index) ? 'bg-green-800' : ''} 
+                            ${moving.includes(index) ? 'bg-yellow-600' : ''}
                         `}
                         style={{height: `${item * 4 + 32}px`}}
                     >
