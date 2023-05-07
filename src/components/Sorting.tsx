@@ -17,6 +17,8 @@ const sortAlgorithm = [
 
 const MIN_NB_ITEMS = 10;
 const MAX_NB_ITEMS = 200;
+const MIN_SPEED = 0;
+const MAX_SPEED = 2000;
 
 export default function Sorting() {
     const [nbItems, setNbItems] = useState<number>(10);
@@ -119,6 +121,17 @@ export default function Sorting() {
         }
     }, [nbItems]);
 
+    // CHANGING SPEED
+    useEffect(() => {
+        if (speed < MIN_SPEED) {
+            setSpeed(MIN_SPEED);
+        } else if (speed > MAX_SPEED) {
+            setSpeed(MAX_SPEED);
+        } else {
+            setSpeed(speed);
+        }
+    }, [speed]);
+
     return (
         <div className="flex flex-col gap-4">
             <div className="flex justify-center">
@@ -143,7 +156,7 @@ export default function Sorting() {
                 <SortingSettings sorting={sorting} setSpeed={setSpeed} speed={speed} nbItems={nbItems} setNbItems={setNbItems}/>
             </div>
             <div className="flex gap-0.5 justify-between items-end border-4 border-dashed rounded-xl border-gray-400 bg-gray-100 pt-4 pb-0.5 px-1"
-            style={{width: `800px`, height: `450px`}}>
+            style={{width: `800px`, height: `450px`, minWidth: `800px`, minHeight: `450px`}}>
                 {array.map((item, index) => (
                     <div
                         key={index}
