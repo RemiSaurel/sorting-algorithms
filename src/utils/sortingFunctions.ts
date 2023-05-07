@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { SortStateDispatch } from "../types/types";
 
 const nextStep = (selected: number[], moving: number[], sorted: number[],
                   setCurrentStep: Dispatch<SetStateAction<number>>,
@@ -12,21 +13,12 @@ const nextStep = (selected: number[], moving: number[], sorted: number[],
     setSorted(sorted);
 }
 
-export const selectionSort: (array: number[], speed: number,
-                             setCurrentStep: Dispatch<SetStateAction<number>>,
-                             setSelected: Dispatch<SetStateAction<number[]>>,
-                             setMoving: Dispatch<SetStateAction<number[]>>,
-                             setArray: Dispatch<SetStateAction<number[]>>,
-                             setSorted: Dispatch<SetStateAction<number[]>>,
-                             setSorting: Dispatch<SetStateAction<boolean>>) => Promise<void> = async (
+export const selectionSort: (array: number[],
+                             speed: number,
+                             ...stateDispatch: SortStateDispatch[]) => Promise<void> = async (
     array: number[],
     speed: number,
-    setCurrentStep: Dispatch<SetStateAction<number>>,
-    setSelected: Dispatch<SetStateAction<number[]>>,
-    setMoving: Dispatch<SetStateAction<number[]>>,
-    setArray: Dispatch<SetStateAction<number[]>>,
-    setSorted: Dispatch<SetStateAction<number[]>>,
-    setSorting: Dispatch<SetStateAction<boolean>>
+    { setCurrentStep, setSelected, setMoving, setArray, setSorted, setSorting }: SortStateDispatch
 ) => {
     setCurrentStep(0);
     let i, j, min_idx;
@@ -60,21 +52,12 @@ export const selectionSort: (array: number[], speed: number,
     setSorted(array.map((_, index) => index));
     setSorting(false);
 }
-export const insertionSort: (array: number[], speed: number,
-                             setCurrentStep: Dispatch<SetStateAction<number>>,
-                             setSelected: Dispatch<SetStateAction<number[]>>,
-                             setMoving: Dispatch<SetStateAction<number[]>>,
-                             setArray: Dispatch<SetStateAction<number[]>>,
-                             setSorted: Dispatch<SetStateAction<number[]>>,
-                             setSorting: Dispatch<SetStateAction<boolean>>) => Promise<void> = async (
+export const insertionSort: (array: number[],
+                             speed: number,
+                             ...stateDispatch: SortStateDispatch[]) => Promise<void> = async (
     array: number[],
     speed: number,
-    setCurrentStep: Dispatch<SetStateAction<number>>,
-    setSelected: Dispatch<SetStateAction<number[]>>,
-    setMoving: Dispatch<SetStateAction<number[]>>,
-    setArray: Dispatch<SetStateAction<number[]>>,
-    setSorted: Dispatch<SetStateAction<number[]>>,
-    setSorting: Dispatch<SetStateAction<boolean>>
+    { setCurrentStep, setSelected, setMoving, setArray, setSorted, setSorting }: SortStateDispatch
 ) => {
     setCurrentStep(0);
     let i, j, temp;
@@ -107,21 +90,13 @@ export const insertionSort: (array: number[], speed: number,
     setSorting(false);
 };
 
-export const bubbleSort: (array: number[], speed: number,
-                             setCurrentStep: Dispatch<SetStateAction<number>>,
-                             setSelected: Dispatch<SetStateAction<number[]>>,
-                             setMoving: Dispatch<SetStateAction<number[]>>,
-                             setArray: Dispatch<SetStateAction<number[]>>,
-                             setSorted: Dispatch<SetStateAction<number[]>>,
-                             setSorting: Dispatch<SetStateAction<boolean>>) => Promise<void> = async (
+export const bubbleSort: (array: number[],
+                          speed: number,
+                          ...stateDispatch: SortStateDispatch[]) => Promise<void> = async (
     array: number[],
     speed: number,
-    setCurrentStep: Dispatch<SetStateAction<number>>,
-    setSelected: Dispatch<SetStateAction<number[]>>,
-    setMoving: Dispatch<SetStateAction<number[]>>,
-    setArray: Dispatch<SetStateAction<number[]>>,
-    setSorted: Dispatch<SetStateAction<number[]>>,
-    setSorting: Dispatch<SetStateAction<boolean>>
+    { setCurrentStep, setSelected, setMoving, setArray, setSorted, setSorting }: SortStateDispatch
+
 ) => {
     setCurrentStep(0);
     let i, j, temp;
@@ -154,21 +129,13 @@ export const bubbleSort: (array: number[], speed: number,
     setSorting(false);
 }
 
-export const mergeSort: (array: number[], speed: number,
-                          setCurrentStep: Dispatch<SetStateAction<number>>,
-                          setSelected: Dispatch<SetStateAction<number[]>>,
-                          setMoving: Dispatch<SetStateAction<number[]>>,
-                          setArray: Dispatch<SetStateAction<number[]>>,
-                          setSorted: Dispatch<SetStateAction<number[]>>,
-                          setSorting: Dispatch<SetStateAction<boolean>>) => Promise<void> = async (
+export const mergeSort: (array: number[],
+                         speed: number,
+                         ...stateDispatch: SortStateDispatch[]) => Promise<void> = async (
     array: number[],
     speed: number,
-    setCurrentStep: Dispatch<SetStateAction<number>>,
-    setSelected: Dispatch<SetStateAction<number[]>>,
-    setMoving: Dispatch<SetStateAction<number[]>>,
-    setArray: Dispatch<SetStateAction<number[]>>,
-    setSorted: Dispatch<SetStateAction<number[]>>,
-    setSorting: Dispatch<SetStateAction<boolean>>
+    { setCurrentStep, setSelected, setMoving, setArray, setSorted, setSorting }: SortStateDispatch
+
 ) => {
     setCurrentStep(0);
     let selected: number[] = [],
@@ -228,21 +195,13 @@ const merge = async (array: number[], aux: number[], low: number, mid: number, h
     }
 }
 
-export const quickSort: (array: number[], speed: number,
-                         setCurrentStep: Dispatch<SetStateAction<number>>,
-                         setSelected: Dispatch<SetStateAction<number[]>>,
-                         setMoving: Dispatch<SetStateAction<number[]>>,
-                         setArray: Dispatch<SetStateAction<number[]>>,
-                         setSorted: Dispatch<SetStateAction<number[]>>,
-                         setSorting: Dispatch<SetStateAction<boolean>>) => Promise<void> = async (
+export const quickSort: (array: number[],
+                         speed: number,
+                         ...stateDispatch: SortStateDispatch[]) => Promise<void> = async (
     array: number[],
     speed: number,
-    setCurrentStep: Dispatch<SetStateAction<number>>,
-    setSelected: Dispatch<SetStateAction<number[]>>,
-    setMoving: Dispatch<SetStateAction<number[]>>,
-    setArray: Dispatch<SetStateAction<number[]>>,
-    setSorted: Dispatch<SetStateAction<number[]>>,
-    setSorting: Dispatch<SetStateAction<boolean>>
+    { setCurrentStep, setSelected, setMoving, setArray, setSorted, setSorting }: SortStateDispatch
+
 ) => {
     setCurrentStep(0);
     let selected: number[] = [],
