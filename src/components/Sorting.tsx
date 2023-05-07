@@ -173,7 +173,7 @@ export default function Sorting() {
                 {array.map((item, index) => (
                     <div
                         key={index}
-                        className={`bg-gray-700 text-white font-bold rounded text-center pt-0.5
+                        className={`bg-gray-700 text-white font-bold rounded text-center pt-0.5 transform transition-all duration-400 ease-in-out
                             ${sorted.includes(index) ? 'bg-green-600' : ''}
                             ${selected.includes(index) ? 'bg-red-400' : ''} 
                             ${moving.includes(index) ? 'bg-yellow-500' : ''}

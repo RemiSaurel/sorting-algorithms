@@ -19,7 +19,7 @@ function App() {
                   <div className="fixed top-12 left-12 border-4 border-dashed border-gray-400 bg-gray-100 rounded p-4">
                       <DataLegend/>
                   </div>
-                  <div className="flex justify-center">
+                  <div className="flex justify-center mb-4">
                       <Sorting/>
                   </div>
               </div>
