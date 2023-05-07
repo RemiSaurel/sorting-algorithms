@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/sorting-algorithms/static/css/main.0589a9a6.css",
-    "main.js": "/sorting-algorithms/static/js/main.aefcc5e9.js",
+    "main.js": "/sorting-algorithms/static/js/main.64e8819b.js",
     "static/js/787.6ba7c597.chunk.js": "/sorting-algorithms/static/js/787.6ba7c597.chunk.js",
     "index.html": "/sorting-algorithms/index.html",
     "main.0589a9a6.css.map": "/sorting-algorithms/static/css/main.0589a9a6.css.map",
-    "main.aefcc5e9.js.map": "/sorting-algorithms/static/js/main.aefcc5e9.js.map",
+    "main.64e8819b.js.map": "/sorting-algorithms/static/js/main.64e8819b.js.map",
     "787.6ba7c597.chunk.js.map": "/sorting-algorithms/static/js/787.6ba7c597.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0589a9a6.css",
-    "static/js/main.aefcc5e9.js"
+    "static/js/main.64e8819b.js"
   ]
 }
