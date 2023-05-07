@@ -17,6 +17,7 @@ export default function SortingSettings({ sorting, speed, setSpeed, nbItems, set
                        setNbItems(parseInt(e.target.value))}
                    disabled={sorting}
                    name="nbItems"
+                   className="accent-blue-900"
             />
             <button
                 className="bg-gray-600 text-white enabled:hover:bg-gray-700 py-1 px-4 rounded disabled:opacity-50"
