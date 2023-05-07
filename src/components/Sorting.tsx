@@ -4,7 +4,8 @@ import NbSteps from "./NbSteps";
 import {generateArray} from "../utils/arrayGenerator";
 import GenerateArrayButton from "./GenerateArrayButton";
 import SortingSettings from "./SortingSettings";
-import {SortingFunction} from "../types/types";
+import {bubbleSort, insertionSort, mergeSort, quickSort, selectionSort} from "../utils/sortingFunctions";
+
 
 const sortAlgorithm = [
     'Bubble',
@@ -18,217 +19,77 @@ const MIN_NB_ITEMS = 10;
 const MAX_NB_ITEMS = 200;
 
 export default function Sorting() {
-    const [nbItems, setNbItems] = useState<number>(100);
+    const [nbItems, setNbItems] = useState<number>(10);
     const [array, setArray] = useState<number[]>(generateArray(nbItems));
     const [currentStep, setCurrentStep] = useState<number>(0);
     const [selected, setSelected] = useState<number[]>([]);
     const [moving, setMoving] = useState<number[]>([]);
     const [sorting, setSorting] = useState<boolean>(false);
     const [sorted, setSorted] = useState<number[]>([]);
-    const [speed, setSpeed] = useState<number>(300);
-
+    const [speed, setSpeed] = useState<number>(100);
+    const [algorithm, setAlgorithm] = useState<string>('');
     // INSERTION SORT
-    const insertionSort: SortingFunction = async (array, speed) => {
-        setCurrentStep(0);
-        let i, j, temp;
-        let selected: number[] = [],
-            moving: number[] = [],
-            sorted: number[] = [];
-        const n = array.length;
-        for (i = 1; i < n; i++) {
-            j = i - 1;
-            selected = [j, i];
-            temp = array[i];
-            while (j >= 0 && array[j] > temp) {
-                moving = [j, j + 1];
-                array[j + 1] = array[j];
-                j--;
-                nextStep(selected, moving, sorted)
-                await new Promise((resolve) => setTimeout(resolve, speed));
-            }
-            moving = [];
-            array[j + 1] = temp;
-            sorted.push(i);
-            setCurrentStep((step) => step + 1);
-            setSelected(selected);
-            setMoving(moving);
-            setArray([...array]);
-            setSorted(sorted);
-            await new Promise((resolve) => setTimeout(resolve, speed));
-        }
-        setSorted(array.map((_, index) => index));
-        setSorting(false);
+    const handleInsertionSort = async () => {
+        setSorting(true);
+        await insertionSort(array, speed,
+            setCurrentStep,
+            setSelected,
+            setMoving,
+            setArray,
+            setSorted,
+            setSorting
+        );
     };
 
-    // BUBBLE SORT
-    const bubbleSort: SortingFunction = async (array, speed) => {
-        setCurrentStep(0);
-        let i, j, temp;
-        let selected: number[] = [],
-            moving: number[] = [],
-            sorted: number[] = [];
-        const n = array.length;
-        for (i = 0; i < n; i++) {
-            for (j = 0; j < n - i - 1; j++) {
-                selected = [j, j + 1];
-                if (array[j] > array[j + 1]) {
-                    moving = [j, j + 1];
-                    temp = array[j];
-                    array[j] = array[j + 1];
-                    array[j + 1] = temp;
-                }
-                nextStep(selected, moving, sorted)
-                await new Promise((resolve) => setTimeout(resolve, speed));
-            }
-            moving = [];
-            sorted.push(n - i - 1);
-            setCurrentStep((step) => step + 1);
-            setSelected(selected);
-            setMoving(moving);
-            setArray([...array]);
-            setSorted(sorted);
-            await new Promise((resolve) => setTimeout(resolve, speed));
-        }
-        setSorted(array.map((_, index) => index));
-        setSorting(false);
+    const handleBubbleSort = async () => {
+        setSorting(true);
+        await bubbleSort(array, speed,
+            setCurrentStep,
+            setSelected,
+            setMoving,
+            setArray,
+            setSorted,
+            setSorting
+        );
     }
 
     // SELECTION SORT
-    const selectionSort: SortingFunction = async (array, speed) => {
-        setCurrentStep(0);
-        let i, j, min_idx;
-        let selected: number[] = [],
-            moving: number[] = [],
-            sorted: number[] = [];
-        const n = array.length;
-        for (i = 0; i < n - 1; i++) {
-            min_idx = i;
-            for (j = i + 1; j < n; j++) {
-                selected = [min_idx, j];
-                if (array[j] < array[min_idx]) {
-                    min_idx = j;
-                }
-                nextStep(selected, moving, sorted)
-                await new Promise((resolve) => setTimeout(resolve, speed));
-            }
-            moving = [i, min_idx];
-            let temp = array[min_idx];
-            array[min_idx] = array[i];
-            array[i] = temp;
-            moving = [];
-            sorted.push(i);
-            setCurrentStep((step) => step + 1);
-            setSelected(selected);
-            setMoving(moving);
-            setArray([...array]);
-            setSorted(sorted);
-            await new Promise((resolve) => setTimeout(resolve, speed));
-        }
-        setSorted(array.map((_, index) => index));
-        setSorting(false);
+    const handleSelectionSort = async () => {
+        setSorting(true);
+        await selectionSort(array, speed,
+            setCurrentStep,
+            setSelected,
+            setMoving,
+            setArray,
+            setSorted,
+            setSorting
+        );
     }
 
     // MERGE SORT
-    const mergeSort: SortingFunction = async (array, speed) => {
-        setCurrentStep(0);
-        let selected: number[] = [],
-            moving: number[] = [],
-            sorted: number[] = [];
-        const n = array.length;
-        const aux = array.slice();
-        await mergeSortHelper(array, aux, 0, n - 1, selected, moving, sorted, speed);
-        setSorted(array.map((_, index) => index));
-        setSorting(false);
-    }
-
-    const mergeSortHelper = async (array: number[], aux: number[], low: number, high: number, selected: number[], moving: number[], sorted: number[], speed: number) => {
-        if (low === high) return;
-        const mid = Math.floor((low + high) / 2);
-        await mergeSortHelper(aux, array, low, mid, selected, moving, sorted, speed);
-        await mergeSortHelper(aux, array, mid + 1, high, selected, moving, sorted, speed);
-        await merge(array, aux, low, mid, high, selected, moving, sorted, speed);
-    }
-
-    const merge = async (array: number[], aux: number[], low: number, mid: number, high: number, selected: number[], moving: number[], sorted: number[], speed: number) => {
-        let k = low,
-            i = low,
-            j = mid + 1;
-        while (i <= mid && j <= high) {
-            selected = [i, j];
-            moving = [k];
-            if (aux[i] <= aux[j]) {
-                array[k++] = aux[i++];
-            } else {
-                array[k++] = aux[j++];
-            }
-            nextStep(selected, moving, sorted);
-            await new Promise((resolve) => setTimeout(resolve, speed));
-        }
-        while (i <= mid) {
-            selected = [i];
-            moving = [k];
-            array[k++] = aux[i++];
-            nextStep(selected, moving, sorted);
-            await new Promise((resolve) => setTimeout(resolve, speed));
-        }
-        while (j <= high) {
-            selected = [j];
-            moving = [k];
-            array[k++] = aux[j++];
-            nextStep(selected, moving, sorted);
-            await new Promise((resolve) => setTimeout(resolve, speed));
-        }
+    const handleMergeSort = async () => {
+        setSorting(true);
+        await mergeSort(array, speed,
+            setCurrentStep,
+            setSelected,
+            setMoving,
+            setArray,
+            setSorted,
+            setSorting
+        );
     }
 
     // QUICK SORT
-    const quickSort: SortingFunction = async (array, speed) => {
-        setCurrentStep(0);
-        let selected: number[] = [],
-            moving: number[] = [],
-            sorted: number[] = [];
-        const n = array.length;
-        await quickSortHelper(array, 0, n - 1, selected, moving, sorted, speed);
-        setSorted(array.map((_, index) => index));
-        setSorting(false);
-    }
-
-    const quickSortHelper = async (array: number[], low: number, high: number, selected: number[], moving: number[], sorted: number[], speed: number) => {
-        if (low < high) {
-            const pivot = await partition(array, low, high, selected, moving, sorted, speed);
-            await quickSortHelper(array, low, pivot - 1, selected, moving, sorted, speed);
-            await quickSortHelper(array, pivot + 1, high, selected, moving, sorted, speed);
-        }
-    }
-
-    const partition = async (array: number[], low: number, high: number, selected: number[], moving: number[], sorted: number[], speed: number) => {
-        let pivot = array[high];
-        let i = low - 1;
-        for (let j = low; j < high; j++) {
-            selected = [j, high];
-            if (array[j] < pivot) {
-                i++;
-                moving = [i, j];
-                let temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-                nextStep(selected, moving, sorted);
-                await new Promise((resolve) => setTimeout(resolve, speed));
-            }
-        }
-        moving = [i + 1, high];
-        let temp = array[i + 1];
-        array[i + 1] = array[high];
-        array[high] = temp;
-        nextStep(selected, moving, sorted);
-        await new Promise((resolve) => setTimeout(resolve, speed));
-        return i + 1;
-    }
-
-    const nextStep = (selected: number[], moving: number[], sorted: number[]) => {
-        setCurrentStep((step) => step + 1);
-        setSelected(selected);
-        setMoving(moving);
-        setSorted(sorted);
+    const handleQuickSort = async () => {
+        setSorting(true);
+        await quickSort(array, speed,
+            setCurrentStep,
+            setSelected,
+            setMoving,
+            setArray,
+            setSorted,
+            setSorting
+        );
     }
 
     const resetArray = () => {
@@ -237,42 +98,29 @@ export default function Sorting() {
         setSorted([]);
         setCurrentStep(0);
         setArray(generateArray(nbItems));
+        setAlgorithm('');
     }
 
     const sort = (algorithm: string) => {
-        let sortingFunction: SortingFunction | undefined;
+        setAlgorithm(algorithm);
         switch (algorithm) {
             case 'Bubble':
-                sortingFunction = bubbleSort;
+                handleBubbleSort();
                 break;
             case 'Insertion':
-                sortingFunction = insertionSort;
+                handleInsertionSort();
                 break;
             case 'Selection':
-                sortingFunction = selectionSort;
+                handleSelectionSort()
                 break;
             case 'Merge':
-                sortingFunction = mergeSort;
+                handleMergeSort();
                 break;
             case 'Quick':
-                sortingFunction = quickSort;
+                handleQuickSort();
                 break;
             default:
                 break;
-        }
-
-        if (sortingFunction) {
-            sortingFunction(array, speed)
-                .then(() => {
-                    setSorting(false);
-                })
-                .catch((error: any) => {
-                    console.error(`Error occurred during sorting: ${error}`);
-                    setSorting(false);
-                });
-            setSorting(true);
-        } else {
-            console.error(`Unknown sorting algorithm: ${algorithm}`);
         }
     };
 
@@ -288,12 +136,12 @@ export default function Sorting() {
     useEffect(() => {
         if (nbItems < MIN_NB_ITEMS) {
             setNbItems(MIN_NB_ITEMS);
-            setArray(generateArray(nbItems));
+            resetArray();
         } else if (nbItems > MAX_NB_ITEMS) {
             setNbItems(MAX_NB_ITEMS);
-            setArray(generateArray(nbItems));
+            resetArray();
         } else {
-            setArray(generateArray(nbItems));
+            resetArray();
         }
     }, [nbItems]);
 
@@ -320,7 +168,7 @@ export default function Sorting() {
             <div className="flex justify-center">
                 <SortingSettings sorting={sorting} setSpeed={setSpeed} speed={speed} nbItems={nbItems} setNbItems={setNbItems}/>
             </div>
-            <div className="flex gap-0.5 justify-center items-end"
+            <div className="flex gap-0.5 justify-center items-end border-4 border-dashed rounded-xl border-gray-300 bg-gray-100 pt-4 px-4"
             style={{width: `600px`}}>
                 {array.map((item, index) => (
                     <div
@@ -335,7 +183,13 @@ export default function Sorting() {
                     </div>
                 ))}
             </div>
-            <NbSteps nbSteps={currentStep}/>
+            <div className="flex items-center justify-center gap-2">
+                {algorithm !== '' &&
+                   <div> Algo : {algorithm} |</div>
+                }
+
+                <NbSteps nbSteps={currentStep}/>
+            </div>
         </div>
     )
 }

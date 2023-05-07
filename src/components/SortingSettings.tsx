@@ -11,10 +11,12 @@ interface Props {
 export default function SortingSettings({ sorting, speed, setSpeed, nbItems, setNbItems }: Props) {
     return (
         <div className="flex gap-4 items-center">
+            <label htmlFor="nbItems">Taille</label>
             <input type="range" min="10" max="200" value={nbItems}
                    onChange={(e) =>
                        setNbItems(parseInt(e.target.value))}
                    disabled={sorting}
+                   name="nbItems"
             />
             <button
                 className="bg-gray-600 text-white enabled:hover:bg-gray-700 py-1 px-4 rounded disabled:opacity-50"
