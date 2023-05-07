@@ -168,26 +168,26 @@ export default function Sorting() {
             <div className="flex justify-center">
                 <SortingSettings sorting={sorting} setSpeed={setSpeed} speed={speed} nbItems={nbItems} setNbItems={setNbItems}/>
             </div>
-            <div className="flex gap-0.5 justify-center items-end border-4 border-dashed rounded-xl border-gray-300 bg-gray-100 pt-4 px-4"
-            style={{width: `600px`}}>
+            <div className="flex gap-0.5 justify-between items-end border-4 border-dashed rounded-xl border-gray-400 bg-gray-100 pt-4 pb-0.5 px-1"
+            style={{width: `800px`}}>
                 {array.map((item, index) => (
                     <div
                         key={index}
-                        className={`bg-gray-700 text-white font-bold rounded
+                        className={`bg-gray-700 text-white font-bold rounded text-center pt-0.5
                             ${sorted.includes(index) ? 'bg-green-600' : ''}
                             ${selected.includes(index) ? 'bg-red-400' : ''} 
                             ${moving.includes(index) ? 'bg-yellow-500' : ''}
                         `}
                         style={{height: `${item * 4 + 32}px`, width: `${80 / array.length}%`, minWidth: '1px'}}
                     >
+                        {nbItems < 25 && item}
                     </div>
                 ))}
             </div>
-            <div className="flex items-center justify-center gap-2">
+            <div className="flex items-start border-4 border-dashed py-2 text-xl rounded border-gray-400 bg-gray-100 justify-center gap-2">
                 {algorithm !== '' &&
-                   <div> Algo : {algorithm} |</div>
+                   <div> Algo : {algorithm} sort |</div>
                 }
-
                 <NbSteps nbSteps={currentStep}/>
             </div>
         </div>

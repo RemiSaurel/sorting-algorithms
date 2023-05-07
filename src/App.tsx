@@ -16,7 +16,7 @@ function App() {
                   <div className="flex justify-center">
                       <h1 className="text-3xl mt-4 mb-8">Sorting algorithms</h1>
                   </div>
-                  <div className="fixed top-12 left-12 border-4 border-dashed border-blue-600 rounded bg-sky-100 p-4">
+                  <div className="fixed top-12 left-12 border-4 border-dashed border-gray-400 bg-gray-100 rounded p-4">
                       <DataLegend/>
                   </div>
                   <div className="flex justify-center">
