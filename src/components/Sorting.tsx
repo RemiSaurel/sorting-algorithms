@@ -137,7 +137,7 @@ export default function Sorting() {
             <div className="flex justify-center">
                 <GenerateArrayButton resetArray={resetArray} disabled={sorting}/>
             </div>
-            <div className="flex gap-4 justify-center">
+            <div className="flex gap-4 justify-center lg:flex-row ">
                 {
                     sortAlgorithm.map((item, index) => (
                         <SortingButton
