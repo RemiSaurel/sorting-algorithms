@@ -5,7 +5,7 @@ import {generateArray} from "../utils/arrayGenerator";
 import GenerateArrayButton from "./GenerateArrayButton";
 import SortingSettings from "./SortingSettings";
 import {bubbleSort, insertionSort, mergeSort, quickSort, selectionSort} from "../utils/sortingFunctions";
-
+import { SortStateDispatch} from "../types/types";
 
 const sortAlgorithm = [
     'Bubble',
@@ -28,68 +28,42 @@ export default function Sorting() {
     const [sorted, setSorted] = useState<number[]>([]);
     const [speed, setSpeed] = useState<number>(100);
     const [algorithm, setAlgorithm] = useState<string>('');
+
+    const sortStateDispatch: SortStateDispatch = {
+        setCurrentStep,
+        setSelected,
+        setMoving,
+        setArray,
+        setSorted,
+        setSorting
+    }
     // INSERTION SORT
     const handleInsertionSort = async () => {
         setSorting(true);
-        await insertionSort(array, speed,
-            setCurrentStep,
-            setSelected,
-            setMoving,
-            setArray,
-            setSorted,
-            setSorting
-        );
+        await insertionSort(array, speed, sortStateDispatch);
     };
 
     const handleBubbleSort = async () => {
         setSorting(true);
-        await bubbleSort(array, speed,
-            setCurrentStep,
-            setSelected,
-            setMoving,
-            setArray,
-            setSorted,
-            setSorting
-        );
+        await bubbleSort(array, speed, sortStateDispatch);
     }
 
     // SELECTION SORT
     const handleSelectionSort = async () => {
         setSorting(true);
-        await selectionSort(array, speed,
-            setCurrentStep,
-            setSelected,
-            setMoving,
-            setArray,
-            setSorted,
-            setSorting
-        );
+        await selectionSort(array, speed, sortStateDispatch);
     }
 
     // MERGE SORT
     const handleMergeSort = async () => {
         setSorting(true);
-        await mergeSort(array, speed,
-            setCurrentStep,
-            setSelected,
-            setMoving,
-            setArray,
-            setSorted,
-            setSorting
-        );
+        await mergeSort(array, speed, sortStateDispatch);
     }
 
     // QUICK SORT
     const handleQuickSort = async () => {
         setSorting(true);
-        await quickSort(array, speed,
-            setCurrentStep,
-            setSelected,
-            setMoving,
-            setArray,
-            setSorted,
-            setSorting
-        );
+        await quickSort(array, speed, sortStateDispatch);
     }
 
     const resetArray = () => {
@@ -169,7 +143,7 @@ export default function Sorting() {
                 <SortingSettings sorting={sorting} setSpeed={setSpeed} speed={speed} nbItems={nbItems} setNbItems={setNbItems}/>
             </div>
             <div className="flex gap-0.5 justify-between items-end border-4 border-dashed rounded-xl border-gray-400 bg-gray-100 pt-4 pb-0.5 px-1"
-            style={{width: `800px`}}>
+            style={{width: `800px`, height: `450px`}}>
                 {array.map((item, index) => (
                     <div
                         key={index}
